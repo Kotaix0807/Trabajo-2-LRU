@@ -12,30 +12,6 @@ typedef struct {
     struct Node *ultimo;
 
 } LRUcache;
-
-int binarySearch(int arr[], int n, int x)
-{
-    int low = 0;
-    int high = n - 1;
-    while (low <= high)
-    {
-        int mid = low + (high - low) / 2;
-
-        // Check if x is present at mid
-        if (arr[mid] == x)
-            return mid;
-
-        // If x greater, ignore left half
-        if (arr[mid] < x)
-            low = mid + 1;
-
-            // If x is smaller, ignore right half
-            else
-            high = mid - 1;
-        }
-        // If we reach here, then element was not present
-        return -1;
-    }
     
     int CreateDir(char *folder_name) // Crea una carpeta
     {
@@ -93,6 +69,7 @@ int create_cache(char* capacity, LRUcache* cache) // Crea la cache
     fclose(meta);
     return 0;
 }
+
 int add_data(char data, LRUcache *cache)
 {
     if(cache == NULL)
