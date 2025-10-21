@@ -26,62 +26,105 @@ Node* create_node(char data)
     return nuevo_nodo;
 }*/
 
-typedef int ElementType; //Sirve para cambiar fácilmente el tipo de dato, ayuda a entender mejor su propósito
+typedef int ElementType;
 typedef struct Node *PtrToNode;
-typedef PtrToNode List;
-typedef PtrToNode Position;
+/*
+    Entender esto como un arreglo dinámico de nodos.
+*/
+typedef PtrToNode List; //Arreglo dinámico de nodos
+typedef PtrToNode Position; //Arreglo dinámico de nodos
 
 struct Node {
-    //(int)
-    ElementType Element; //Elemento del nodo de tipo int
-    Position Next;
+    ElementType Element; //Contenido del nodo
+    Position Next; //Puntero al nodo que le sigue
 };
 
-void EmptyList(List *L) {
-    if(L != NULL) {
+//Declaraciones de funciones.
+Position FindNode(List L, ElementType val);
+Position PreviusNode(List L, Position p);
+void NewNode(List L, ElementType val, Position p);
+void DeleteNode(List L, Position p);
+int IsLast(Position p);
+void EmptyList(List *L);
+List CreateList(void);
+
+
+//Funciones de manipulación de nodos
+List CreateList(void) { //Crear lista
+    List L = malloc(sizeof(struct Node));
+    if (L == NULL) {
+        perror("Error creando la lista");
+        exit(EXIT_FAILURE);
+    }
+    L->Next = NULL;
+    L->Element = 0;
+    return L;
+}
+
+void EmptyList(List *L) { //Vaciar la lista
+    if (L != NULL && *L != NULL) {
+        Position current = (*L)->Next;
+        Position temp;
+        while (current != NULL) {
+            temp = current;
+            current = current->Next;
+            free(temp);
+        }
         free(*L);
         *L = NULL;
     }
 }
 
-Position FindNode(List L, ElementType val) {
-    Position p = L; //Se iguala al primer elemento de la lista (El de mas a la izquierda)
-    while(p != NULL && p->Element != val) {
+int IsLast(Position p) { //Verificar si es el último
+    return p != NULL && p->Next == NULL;
+}
+
+void DeleteNode(List L, Position p) { //Borrar nodo
+    if (L == NULL || p == NULL)
+        return;
+    
+    Position prev = PreviusNode(L, p);
+    if (prev != NULL) {
+        Position temp = p;
+        prev->Next = p->Next;
+        free(temp);
+    }
+}
+
+void NewNode(List L, ElementType val, Position p) { //Crear nodo nuevo
+    if (L == NULL || p == NULL) return;
+
+    Position temp = malloc(sizeof(struct Node));
+    if (temp == NULL) {
+        perror("Malloc failed");
+        exit(EXIT_FAILURE);
+    }
+    temp->Element = val;
+    temp->Next = p->Next;
+    p->Next = temp;
+}
+
+Position PreviusNode(List L, Position p) { //Encontrar nodo anterior
+    if (L == NULL || p == NULL) return NULL;
+    
+    Position current = L;
+    if (current == p) {
+        return NULL;
+    }
+    while (current != NULL && current->Next != p) {
+        current = current->Next;
+    }
+    return current;
+}
+
+Position FindNode(List L, ElementType val) { //Encontrar nodo
+    if (L == NULL)
+        return NULL;
+    
+    Position p = L->Next;
+    while (p != NULL && p->Element != val) {
         p = p->Next;
     }
     return p;
-}
-
-void NewNode(List L, ElementType val, Position p) { //Si posición == NULL, entonces 
-    //Insertar un nodo en la Lista L con valor val y posición p
-    //Pasos a seguir: Encontrar la posición en la lista
-    //Si no existe la posición, dar error ---> resolver la forma de encontrar esa posición
-    //Crear un nodo
-    Position temp = malloc(sizeof(struct Node)); //Se iguala al primer elemento de la lista (El de mas a la izquierda)
-    if(temp == NULL) {
-        perror("Malloc");
-        exit(EXIT_FAILURE);
-    }
-    temp->Element = val; //Se crea el nodo con este valor
-
-    temp->Next = p->Next; //El nodo nuevo apunta al que apuntaba el de la posición p
-    p->Next = temp; //El de la posición p apunta al nodo nuevo
-    
-}
-
-void DeleteNode(List L, Position p) { //Si posición == NULL, entonces 
-    //Insertar un nodo en la Lista L con valor val y posición p
-    //Pasos a seguir: Encontrar la posición en la lista
-    //Si no existe la posición, dar error ---> resolver la forma de encontrar esa posición
-    //Crear un nodo
-    Position temp = malloc(sizeof(struct Node)); //Se iguala al primer elemento de la lista (El de mas a la izquierda)
-    if(temp == NULL) {
-        perror("Malloc");
-        exit(EXIT_FAILURE);
-    }
-
-    temp->Next = p->Next; //El nodo nuevo apunta al que apuntaba el de la posición p
-    p->Next = temp; //El de la posición p apunta al nodo nuevo
-    
 }
 

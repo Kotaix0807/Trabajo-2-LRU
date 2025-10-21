@@ -13,8 +13,8 @@ typedef struct {
 
 } LRUcache;
     
-    int CreateDir(char *folder_name) // Crea una carpeta
-    {
+int CreateDir(char *folder_name) // Crea una carpeta
+{
     size_t cmd_size = strlen(folder_name) + 20;
     char *cmd = malloc(sizeof(char) * cmd_size);
     snprintf(cmd, cmd_size, "mkdir \"%s\"", folder_name);
