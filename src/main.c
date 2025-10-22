@@ -1,9 +1,10 @@
 #include <stdio.h>
-#include "lru.h"
 #include "nodes.h"
+#include "lru.h"
 int main(int argc, char *argv[])
 {
     LRUcache main_cache;
+    List main_list = CreateList();
     init_cache(&main_cache);
     if(argc < 2)
     {
@@ -18,8 +19,17 @@ int main(int argc, char *argv[])
     }
     else if(strcmp(argv[1], "create") == 0)
     {
-        if(create_cache(argv[2], &main_cache))
+        if(Create_cache(argv[2]))
             return 1;
+    }
+    else if(strcmp(argv[1], "create") == 0)
+    {
+        if(Add_data(argv[2], &main_cache))
+            return 1;
+    }    
+    else if(strcmp(argv[1], "test") == 0)
+    {
+        test(&main_cache);
     }
     return 0;
 }

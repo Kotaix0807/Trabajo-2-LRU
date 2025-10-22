@@ -26,7 +26,7 @@ Node* create_node(char data)
     return nuevo_nodo;
 }*/
 
-typedef int ElementType;
+typedef char ElementType;
 typedef struct Node *PtrToNode;
 /*
     Entender esto como un arreglo dinámico de nodos.
@@ -92,8 +92,8 @@ void DeleteNode(List L, Position p) { //Borrar nodo
 }
 
 void NewNode(List L, ElementType val, Position p) { //Crear nodo nuevo
-    if (L == NULL || p == NULL) return;
-
+    if (L == NULL || p == NULL)
+        return;
     Position temp = malloc(sizeof(struct Node));
     if (temp == NULL) {
         perror("Malloc failed");
