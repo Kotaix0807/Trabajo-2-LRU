@@ -128,3 +128,16 @@ Position FindNode(List L, ElementType val) { //Encontrar nodo
     return p;
 }
 
+void PrintList(List L) {
+    if (L == NULL) {
+        printf("(lista vacía)\n");
+        return;
+    }
+    Position p = L->Next; // Saltamos nodo cabecera
+    printf("Lista: ");
+    while (p != NULL) {
+        printf("%d ", p->Element);
+        p = p->Next;
+    }
+    printf("\n");
+}

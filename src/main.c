@@ -4,7 +4,6 @@
 int main(int argc, char *argv[])
 {
     LRUcache main_cache;
-    List main_list = CreateList();
     init_cache(&main_cache);
     if(argc < 2)
     {
@@ -30,6 +29,8 @@ int main(int argc, char *argv[])
     else if(strcmp(argv[1], "test") == 0)
     {
         test(&main_cache);
+        if(LoadCache(&main_cache))
+            return 1;
     }
     return 0;
 }
