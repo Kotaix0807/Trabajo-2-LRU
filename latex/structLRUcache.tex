@@ -1,0 +1,69 @@
+\doxysection{LRUcache Struct Reference}
+\hypertarget{structLRUcache}{}\label{structLRUcache}\index{LRUcache@{LRUcache}}
+
+
+Estructura principal de la cache LRU.  
+
+
+
+
+{\ttfamily \#include $<$lru.\+h$>$}
+
+
+
+Collaboration diagram for LRUcache\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{structLRUcache__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{structLRUcache_a0d227ad15f7f91f2abacfe7442a50133}{max\+\_\+cache}}
+\item 
+\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}} \mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}
+\item 
+\mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}} \mbox{\hyperlink{structLRUcache_a3932c021d0401ccffb2e6c1df215416e}{primero}}
+\item 
+\mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}} \mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Estructura principal de la cache LRU. 
+
+Contiene la capacidad maxima y los punteros a los extremos de la lista ligada que simula la cache. 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structLRUcache_aac27106eb5cef5baaeadacb445f23067}\label{structLRUcache_aac27106eb5cef5baaeadacb445f23067} 
+\index{LRUcache@{LRUcache}!main@{main}}
+\index{main@{main}!LRUcache@{LRUcache}}
+\doxysubsubsection{\texorpdfstring{main}{main}}
+{\footnotesize\ttfamily \mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}} LRUcache\+::main}
+
+Puntero al nodo cabecera de la lista ligada. \Hypertarget{structLRUcache_a0d227ad15f7f91f2abacfe7442a50133}\label{structLRUcache_a0d227ad15f7f91f2abacfe7442a50133} 
+\index{LRUcache@{LRUcache}!max\_cache@{max\_cache}}
+\index{max\_cache@{max\_cache}!LRUcache@{LRUcache}}
+\doxysubsubsection{\texorpdfstring{max\_cache}{max\_cache}}
+{\footnotesize\ttfamily int LRUcache\+::max\+\_\+cache}
+
+Capacidad maxima de la cache. \Hypertarget{structLRUcache_a3932c021d0401ccffb2e6c1df215416e}\label{structLRUcache_a3932c021d0401ccffb2e6c1df215416e} 
+\index{LRUcache@{LRUcache}!primero@{primero}}
+\index{primero@{primero}!LRUcache@{LRUcache}}
+\doxysubsubsection{\texorpdfstring{primero}{primero}}
+{\footnotesize\ttfamily \mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}} LRUcache\+::primero}
+
+Puntero al elemento mas recientemente usado (MRU). \Hypertarget{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}\label{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4} 
+\index{LRUcache@{LRUcache}!ultimo@{ultimo}}
+\index{ultimo@{ultimo}!LRUcache@{LRUcache}}
+\doxysubsubsection{\texorpdfstring{ultimo}{ultimo}}
+{\footnotesize\ttfamily \mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}} LRUcache\+::ultimo}
+
+Puntero al elemento menos recientemente usado (LRU). 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{lru_8h}{lru.\+h}}\end{DoxyCompactItemize}

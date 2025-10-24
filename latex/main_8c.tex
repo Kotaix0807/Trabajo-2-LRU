@@ -1,0 +1,72 @@
+\doxysection{src/main.c File Reference}
+\hypertarget{main_8c}{}\label{main_8c}\index{src/main.c@{src/main.c}}
+
+
+Archivo principal del programa de simulacion de cache LRU.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}nodes.\+h"{}}\newline
+{\ttfamily \#include "{}lru.\+h"{}}\newline
+Include dependency graph for main.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{main_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Funcion principal del programa. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Archivo principal del programa de simulacion de cache LRU. 
+
+Implementa la interfaz de linea de comandos para interactuar con la estructura de cache Least Recently Used (LRU). 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8c_a0ddf1224851353fc92bfbff6f499fa97}\label{main_8c_a0ddf1224851353fc92bfbff6f499fa97} 
+\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char \texorpdfstring{$\ast$}{*}}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Funcion principal del programa. 
+
+Procesa los argumentos de la linea de comandos para realizar operaciones sobre la cache LRU.
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & Numero de argumentos de la linea de comandos. \\
+\hline
+{\em argv} & Arreglo de cadenas de caracteres con los argumentos. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Retorna 0 si la ejecucion es exitosa, 1 en caso de error. 
+\end{DoxyReturn}
+Mostrar ayuda
+
+Comando create\+: Inicializa una nueva cache con la capacidad especificada.
+
+Para cualquier otro comando, intenta cargar la cache existente desde disco
+
+Comando add\+: Agrega un nuevo dato a la cache (o lo usa si ya existe).
+
+Comando get\+: Marca un dato existente como usado (lo mueve a la posicion MRU).
+
+Guardar cambios en disco (persistencia)
+
+Comando all\+: Muestra el contenido actual de la cache.
+
+Comando exit\+: Termina la ejecucion del programa.
+
+Comando desconocido.

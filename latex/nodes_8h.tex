@@ -1,0 +1,222 @@
+\doxysection{src/nodes.h File Reference}
+\hypertarget{nodes_8h}{}\label{nodes_8h}\index{src/nodes.h@{src/nodes.h}}
+
+
+Implementacion de las estructuras basicas y funciones para listas ligadas simples.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+Include dependency graph for nodes.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{nodes_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=152pt]{nodes_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structNode}{Node}}
+\begin{DoxyCompactList}\small\item\em Estructura de un nodo de la lista ligada simple. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{nodes_8h_a4202d865d2ef3d1ca285201105aa84cc}\label{nodes_8h_a4202d865d2ef3d1ca285201105aa84cc} 
+typedef char {\bfseries Element\+Type}
+\begin{DoxyCompactList}\small\item\em Tipo de dato para el contenido del nodo. \end{DoxyCompactList}\item 
+\Hypertarget{nodes_8h_a7929bfb25fa3affc128bc34e78eb7990}\label{nodes_8h_a7929bfb25fa3affc128bc34e78eb7990} 
+typedef struct \mbox{\hyperlink{structNode}{Node}} \texorpdfstring{$\ast$}{*} {\bfseries Ptr\+To\+Node}
+\begin{DoxyCompactList}\small\item\em Puntero a la estructura \doxylink{structNode}{Node}. \end{DoxyCompactList}\item 
+\Hypertarget{nodes_8h_ace844744a4ffe936a117329563209d05}\label{nodes_8h_ace844744a4ffe936a117329563209d05} 
+typedef \mbox{\hyperlink{nodes_8h_a7929bfb25fa3affc128bc34e78eb7990}{Ptr\+To\+Node}} {\bfseries List}
+\begin{DoxyCompactList}\small\item\em Tipo de dato para la lista (puntero al nodo cabecera). \end{DoxyCompactList}\item 
+\Hypertarget{nodes_8h_aecac282e593b7a234165624438bc6501}\label{nodes_8h_aecac282e593b7a234165624438bc6501} 
+typedef \mbox{\hyperlink{nodes_8h_a7929bfb25fa3affc128bc34e78eb7990}{Ptr\+To\+Node}} {\bfseries Position}
+\begin{DoxyCompactList}\small\item\em Tipo de dato para una posicion dentro de la lista (puntero a un nodo). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{Indent}\textbf{ Declaraciones de Funciones de Lista}\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}} \mbox{\hyperlink{nodes_8h_a611a52d75c4849f1d86da34735dd65ec}{Find\+Node}} (\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}} L, \mbox{\hyperlink{nodes_8h_a4202d865d2ef3d1ca285201105aa84cc}{Element\+Type}} val)
+\begin{DoxyCompactList}\small\item\em Busca un nodo que contenga un valor especifico. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}} \mbox{\hyperlink{nodes_8h_a83d275d41554f04146d08e670f25aa23}{Previus\+Node}} (\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}} L, \mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}} p)
+\begin{DoxyCompactList}\small\item\em Encuentra la posicion del nodo predecesor (anterior) a un nodo dado. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{nodes_8h_af9225f270d0528b68f6edd7eb8514cc0}{New\+Node}} (\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}} L, \mbox{\hyperlink{nodes_8h_a4202d865d2ef3d1ca285201105aa84cc}{Element\+Type}} val, \mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}} p)
+\begin{DoxyCompactList}\small\item\em Inserta un nuevo nodo despues de una posicion especifica. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{nodes_8h_a80bacd0a6ea1855c11234582532be6a3}{Delete\+Node}} (\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}} L, \mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}} p)
+\begin{DoxyCompactList}\small\item\em Elimina un nodo especifico de la lista. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{nodes_8h_a0c706fc7deb1d2b1eab73c6a47b3dc97}{Is\+Last}} (\mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}} p)
+\begin{DoxyCompactList}\small\item\em Verifica si una posicion dada es el ultimo nodo de la lista (no nulo). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{nodes_8h_ab13417936adff54bd6d1647d9a92bb2d}{Empty\+List}} (\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}} \texorpdfstring{$\ast$}{*}L)
+\begin{DoxyCompactList}\small\item\em Vacia completamente la lista ligada, liberando la memoria de todos los nodos. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}} \mbox{\hyperlink{nodes_8h_a913d1e38e41bc95bd4a26379ccb30503}{Create\+List}} (void)
+\begin{DoxyCompactList}\small\item\em Crea e inicializa una lista ligada (con nodo cabecera). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Funciones de Manipulacion de Nodos}\par
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{nodes_8h_aa019564dd1f710e2059603743f0ca586}{Print\+List}} (\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}} L)
+\begin{DoxyCompactList}\small\item\em Imprime el contenido de la lista (util para debug o el comando \textquotesingle{}all\textquotesingle{}). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Detailed Description}
+Implementacion de las estructuras basicas y funciones para listas ligadas simples. 
+
+Este archivo define los tipos de datos y las operaciones fundamentales para manipular los nodos que componen la estructura de la cache LRU. Se utiliza un nodo cabecera (header node) para la lista. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{nodes_8h_a913d1e38e41bc95bd4a26379ccb30503}\label{nodes_8h_a913d1e38e41bc95bd4a26379ccb30503} 
+\index{nodes.h@{nodes.h}!CreateList@{CreateList}}
+\index{CreateList@{CreateList}!nodes.h@{nodes.h}}
+\doxysubsubsection{\texorpdfstring{CreateList()}{CreateList()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}} Create\+List (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Crea e inicializa una lista ligada (con nodo cabecera). 
+
+\begin{DoxyReturn}{Returns}
+List Retorna un puntero al nodo cabecera de la nueva lista. 
+\end{DoxyReturn}
+\Hypertarget{nodes_8h_a80bacd0a6ea1855c11234582532be6a3}\label{nodes_8h_a80bacd0a6ea1855c11234582532be6a3} 
+\index{nodes.h@{nodes.h}!DeleteNode@{DeleteNode}}
+\index{DeleteNode@{DeleteNode}!nodes.h@{nodes.h}}
+\doxysubsubsection{\texorpdfstring{DeleteNode()}{DeleteNode()}}
+{\footnotesize\ttfamily void Delete\+Node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}}}]{L,  }\item[{\mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}}}]{p }\end{DoxyParamCaption})}
+
+
+
+Elimina un nodo especifico de la lista. 
+
+\begin{DoxyNote}{Note}
+Asume que el nodo a borrar no es el nodo cabecera. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em L} & Puntero al nodo cabecera de la lista. \\
+\hline
+{\em p} & Posicion (nodo) a borrar. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nodes_8h_ab13417936adff54bd6d1647d9a92bb2d}\label{nodes_8h_ab13417936adff54bd6d1647d9a92bb2d} 
+\index{nodes.h@{nodes.h}!EmptyList@{EmptyList}}
+\index{EmptyList@{EmptyList}!nodes.h@{nodes.h}}
+\doxysubsubsection{\texorpdfstring{EmptyList()}{EmptyList()}}
+{\footnotesize\ttfamily void Empty\+List (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}} \texorpdfstring{$\ast$}{*}}]{L }\end{DoxyParamCaption})}
+
+
+
+Vacia completamente la lista ligada, liberando la memoria de todos los nodos. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em L} & Puntero a la lista a vaciar (puntero doble para modificar la List misma). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nodes_8h_a611a52d75c4849f1d86da34735dd65ec}\label{nodes_8h_a611a52d75c4849f1d86da34735dd65ec} 
+\index{nodes.h@{nodes.h}!FindNode@{FindNode}}
+\index{FindNode@{FindNode}!nodes.h@{nodes.h}}
+\doxysubsubsection{\texorpdfstring{FindNode()}{FindNode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}} Find\+Node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}}}]{L,  }\item[{\mbox{\hyperlink{nodes_8h_a4202d865d2ef3d1ca285201105aa84cc}{Element\+Type}}}]{val }\end{DoxyParamCaption})}
+
+
+
+Busca un nodo que contenga un valor especifico. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em L} & Puntero al nodo cabecera de la lista. \\
+\hline
+{\em val} & El valor del elemento a buscar. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Position Retorna un puntero al primer nodo que contenga el valor, o NULL si no se encuentra. 
+\end{DoxyReturn}
+\Hypertarget{nodes_8h_a0c706fc7deb1d2b1eab73c6a47b3dc97}\label{nodes_8h_a0c706fc7deb1d2b1eab73c6a47b3dc97} 
+\index{nodes.h@{nodes.h}!IsLast@{IsLast}}
+\index{IsLast@{IsLast}!nodes.h@{nodes.h}}
+\doxysubsubsection{\texorpdfstring{IsLast()}{IsLast()}}
+{\footnotesize\ttfamily int Is\+Last (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}}}]{p }\end{DoxyParamCaption})}
+
+
+
+Verifica si una posicion dada es el ultimo nodo de la lista (no nulo). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & Posicion (nodo) a verificar. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Retorna 1 si es el ultimo nodo, 0 en caso contrario. 
+\end{DoxyReturn}
+\Hypertarget{nodes_8h_af9225f270d0528b68f6edd7eb8514cc0}\label{nodes_8h_af9225f270d0528b68f6edd7eb8514cc0} 
+\index{nodes.h@{nodes.h}!NewNode@{NewNode}}
+\index{NewNode@{NewNode}!nodes.h@{nodes.h}}
+\doxysubsubsection{\texorpdfstring{NewNode()}{NewNode()}}
+{\footnotesize\ttfamily void New\+Node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}}}]{L,  }\item[{\mbox{\hyperlink{nodes_8h_a4202d865d2ef3d1ca285201105aa84cc}{Element\+Type}}}]{val,  }\item[{\mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}}}]{p }\end{DoxyParamCaption})}
+
+
+
+Inserta un nuevo nodo despues de una posicion especifica. 
+
+\begin{DoxyNote}{Note}
+La insercion en la cabeza se logra pasando el nodo cabecera como \textquotesingle{}p\textquotesingle{}. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em L} & Puntero al nodo cabecera de la lista. \\
+\hline
+{\em val} & El valor del elemento a insertar. \\
+\hline
+{\em p} & Posicion despues de la cual se insertara el nuevo nodo. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{nodes_8h_a83d275d41554f04146d08e670f25aa23}\label{nodes_8h_a83d275d41554f04146d08e670f25aa23} 
+\index{nodes.h@{nodes.h}!PreviusNode@{PreviusNode}}
+\index{PreviusNode@{PreviusNode}!nodes.h@{nodes.h}}
+\doxysubsubsection{\texorpdfstring{PreviusNode()}{PreviusNode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}} Previus\+Node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}}}]{L,  }\item[{\mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}}}]{p }\end{DoxyParamCaption})}
+
+
+
+Encuentra la posicion del nodo predecesor (anterior) a un nodo dado. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em L} & Puntero al nodo cabecera de la lista. \\
+\hline
+{\em p} & Posicion (nodo) cuyo predecesor se busca. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Position Retorna el puntero al nodo predecesor, o NULL si \textquotesingle{}p\textquotesingle{} es la cabecera o no esta en la lista. 
+\end{DoxyReturn}
+\Hypertarget{nodes_8h_aa019564dd1f710e2059603743f0ca586}\label{nodes_8h_aa019564dd1f710e2059603743f0ca586} 
+\index{nodes.h@{nodes.h}!PrintList@{PrintList}}
+\index{PrintList@{PrintList}!nodes.h@{nodes.h}}
+\doxysubsubsection{\texorpdfstring{PrintList()}{PrintList()}}
+{\footnotesize\ttfamily void Print\+List (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}}}]{L }\end{DoxyParamCaption})}
+
+
+
+Imprime el contenido de la lista (util para debug o el comando \textquotesingle{}all\textquotesingle{}). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em L} & Puntero al nodo cabecera de la lista. \\
+\hline
+\end{DoxyParams}

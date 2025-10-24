@@ -1,0 +1,126 @@
+\doxysection{nodes.\+h}
+\hypertarget{nodes_8h_source}{}\label{nodes_8h_source}\index{src/nodes.h@{src/nodes.h}}
+\mbox{\hyperlink{nodes_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{/*\ Bloque\ de\ comentarios\ de\ nodo\ doblemente\ ligado\ */}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{nodes_8h_a4202d865d2ef3d1ca285201105aa84cc}{ElementType}};}
+\DoxyCodeLine{00019\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structNode}{Node}}\ *\mbox{\hyperlink{nodes_8h_a7929bfb25fa3affc128bc34e78eb7990}{PtrToNode}};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{structNode}{PtrToNode}}\ \mbox{\hyperlink{nodes_8h_ace844744a4ffe936a117329563209d05}{List}};}
+\DoxyCodeLine{00024\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{structNode}{PtrToNode}}\ \mbox{\hyperlink{nodes_8h_aecac282e593b7a234165624438bc6501}{Position}};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structNode}{Node}}\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{nodes_8h_a4202d865d2ef3d1ca285201105aa84cc}{ElementType}}\ \mbox{\hyperlink{structNode_a3527c64bfe482b609a871b2496a3f2e8}{Element}};\ }
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ \mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{00032\ \};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00036\ \mbox{\hyperlink{structNode}{Position}}\ \mbox{\hyperlink{nodes_8h_a611a52d75c4849f1d86da34735dd65ec}{FindNode}}(\mbox{\hyperlink{structNode}{List}}\ L,\ \mbox{\hyperlink{nodes_8h_a4202d865d2ef3d1ca285201105aa84cc}{ElementType}}\ val);}
+\DoxyCodeLine{00037\ \mbox{\hyperlink{structNode}{Position}}\ \mbox{\hyperlink{nodes_8h_a83d275d41554f04146d08e670f25aa23}{PreviusNode}}(\mbox{\hyperlink{structNode}{List}}\ L,\ \mbox{\hyperlink{structNode}{Position}}\ p);}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{nodes_8h_af9225f270d0528b68f6edd7eb8514cc0}{NewNode}}(\mbox{\hyperlink{structNode}{List}}\ L,\ \mbox{\hyperlink{nodes_8h_a4202d865d2ef3d1ca285201105aa84cc}{ElementType}}\ val,\ \mbox{\hyperlink{structNode}{Position}}\ p);}
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{nodes_8h_a80bacd0a6ea1855c11234582532be6a3}{DeleteNode}}(\mbox{\hyperlink{structNode}{List}}\ L,\ \mbox{\hyperlink{structNode}{Position}}\ p);}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{nodes_8h_a0c706fc7deb1d2b1eab73c6a47b3dc97}{IsLast}}(\mbox{\hyperlink{structNode}{Position}}\ p);}
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{nodes_8h_ab13417936adff54bd6d1647d9a92bb2d}{EmptyList}}(\mbox{\hyperlink{structNode}{List}}\ *L);}
+\DoxyCodeLine{00042\ \mbox{\hyperlink{structNode}{List}}\ \mbox{\hyperlink{nodes_8h_a913d1e38e41bc95bd4a26379ccb30503}{CreateList}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00053\ \mbox{\hyperlink{structNode}{List}}\ \mbox{\hyperlink{nodes_8h_a913d1e38e41bc95bd4a26379ccb30503}{CreateList}}(\textcolor{keywordtype}{void})\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{structNode}{List}}\ L\ =\ malloc(\textcolor{keyword}{sizeof}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structNode}{Node}}));}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordflow}{if}\ (L\ ==\ NULL)\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ creando\ la\ lista"{}});}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00058\ \ \ \ \ \}}
+\DoxyCodeLine{00059\ \ \ \ \ L-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ =\ NULL;}
+\DoxyCodeLine{00060\ \ \ \ \ L-\/>\mbox{\hyperlink{structNode_a3527c64bfe482b609a871b2496a3f2e8}{Element}}\ =\ 0;\ \textcolor{comment}{//\ El\ nodo\ cabecera\ no\ almacena\ un\ elemento\ util.}}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordflow}{return}\ L;}
+\DoxyCodeLine{00062\ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00068\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{nodes_8h_ab13417936adff54bd6d1647d9a92bb2d}{EmptyList}}(\mbox{\hyperlink{structNode}{List}}\ *L)\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{if}\ (L\ !=\ NULL\ \&\&\ *L\ !=\ NULL)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ current\ =\ (*L)-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ temp;}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (current\ !=\ NULL)\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ temp\ =\ current;}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ free(temp);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ free(*L);\ \textcolor{comment}{//\ Liberar\ tambien\ el\ nodo\ cabecera}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ *L\ =\ NULL;}
+\DoxyCodeLine{00079\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00087\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{nodes_8h_a0c706fc7deb1d2b1eab73c6a47b3dc97}{IsLast}}(\mbox{\hyperlink{structNode}{Position}}\ p)\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordflow}{return}\ p\ !=\ NULL\ \&\&\ p-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ ==\ NULL;}
+\DoxyCodeLine{00089\ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00097\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{nodes_8h_a80bacd0a6ea1855c11234582532be6a3}{DeleteNode}}(\mbox{\hyperlink{structNode}{List}}\ L,\ \mbox{\hyperlink{structNode}{Position}}\ p)\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordflow}{if}\ (L\ ==\ NULL\ ||\ p\ ==\ NULL)}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ prev\ =\ \mbox{\hyperlink{nodes_8h_a83d275d41554f04146d08e670f25aa23}{PreviusNode}}(L,\ p);}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordflow}{if}\ (prev\ !=\ NULL)\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ temp\ =\ p;}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ prev-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ =\ p-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ free(temp);}
+\DoxyCodeLine{00106\ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00116\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{nodes_8h_af9225f270d0528b68f6edd7eb8514cc0}{NewNode}}(\mbox{\hyperlink{structNode}{List}}\ L,\ \mbox{\hyperlink{nodes_8h_a4202d865d2ef3d1ca285201105aa84cc}{ElementType}}\ val,\ \mbox{\hyperlink{structNode}{Position}}\ p)\ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{if}\ (L\ ==\ NULL\ ||\ p\ ==\ NULL)}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00119\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ temp\ =\ malloc(\textcolor{keyword}{sizeof}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structNode}{Node}}));}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordflow}{if}\ (temp\ ==\ NULL)\ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Malloc\ failed"{}});}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00123\ \ \ \ \ \}}
+\DoxyCodeLine{00124\ \ \ \ \ temp-\/>\mbox{\hyperlink{structNode_a3527c64bfe482b609a871b2496a3f2e8}{Element}}\ =\ val;}
+\DoxyCodeLine{00125\ \ \ \ \ temp-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ =\ p-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00126\ \ \ \ \ p-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ =\ temp;}
+\DoxyCodeLine{00127\ \}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00135\ \mbox{\hyperlink{structNode}{Position}}\ \mbox{\hyperlink{nodes_8h_a83d275d41554f04146d08e670f25aa23}{PreviusNode}}(\mbox{\hyperlink{structNode}{List}}\ L,\ \mbox{\hyperlink{structNode}{Position}}\ p)\ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordflow}{if}\ (L\ ==\ NULL\ ||\ p\ ==\ NULL)\ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ current\ =\ L;}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\ ==\ p)\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;\ \textcolor{comment}{//\ 'p'\ es\ el\ nodo\ cabecera}}
+\DoxyCodeLine{00141\ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\ !=\ NULL\ \&\&\ current-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ !=\ p)\ \{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00144\ \ \ \ \ \}}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordflow}{return}\ current;}
+\DoxyCodeLine{00146\ \}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00154\ \mbox{\hyperlink{structNode}{Position}}\ \mbox{\hyperlink{nodes_8h_a611a52d75c4849f1d86da34735dd65ec}{FindNode}}(\mbox{\hyperlink{structNode}{List}}\ L,\ \mbox{\hyperlink{nodes_8h_a4202d865d2ef3d1ca285201105aa84cc}{ElementType}}\ val)\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordflow}{if}\ (L\ ==\ NULL)}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ p\ =\ L-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};\ \textcolor{comment}{//\ Empezar\ despues\ del\ nodo\ cabecera}}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordflow}{while}\ (p\ !=\ NULL\ \&\&\ p-\/>\mbox{\hyperlink{structNode_a3527c64bfe482b609a871b2496a3f2e8}{Element}}\ !=\ val)\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ p\ =\ p-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00161\ \ \ \ \ \}}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keywordflow}{return}\ p;}
+\DoxyCodeLine{00163\ \}}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00169\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{nodes_8h_aa019564dd1f710e2059603743f0ca586}{PrintList}}(\mbox{\hyperlink{structNode}{List}}\ L)\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordflow}{if}\ (L\ ==\ NULL\ ||\ L-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ ==\ NULL)\ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}(vacia)\(\backslash\)n"{}});}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00173\ \ \ \ \ \}}
+\DoxyCodeLine{00174\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ p\ =\ L-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};\ \textcolor{comment}{//\ Saltamos\ nodo\ cabecera}}
+\DoxyCodeLine{00175\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Cache\ (mas\ reciente\ -\/>\ menos\ reciente):\ "{}});}
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordflow}{while}\ (p\ !=\ NULL)\ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\%c\ "{}},\ p-\/>\mbox{\hyperlink{structNode_a3527c64bfe482b609a871b2496a3f2e8}{Element}});}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ p\ =\ p-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00179\ \ \ \ \ \}}
+\DoxyCodeLine{00180\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{00181\ \}}
+\DoxyCodeLine{00183\ }
+
+\end{DoxyCode}

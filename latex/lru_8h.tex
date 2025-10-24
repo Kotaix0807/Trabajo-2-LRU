@@ -1,0 +1,319 @@
+\doxysection{src/lru.h File Reference}
+\hypertarget{lru_8h}{}\label{lru_8h}\index{src/lru.h@{src/lru.h}}
+
+
+Definiciones de estructuras y funciones para la Cache LRU (Least Recently Used).  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$sys/stat.\+h$>$}\newline
+Include dependency graph for lru.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lru_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=147pt]{lru_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structLRUcache}{LRUcache}}
+\begin{DoxyCompactList}\small\item\em Estructura principal de la cache LRU. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{lru_8h_a0920890c442b665b0c6609fa796e9047}\label{lru_8h_a0920890c442b665b0c6609fa796e9047} 
+\#define {\bfseries DIR\+\_\+\+SEPARATOR}~"{}/"{}
+\item 
+\Hypertarget{lru_8h_a2b42ceef59ec198c6eee355a96d2cd1c}\label{lru_8h_a2b42ceef59ec198c6eee355a96d2cd1c} 
+\#define {\bfseries MKDIR}(dir)~mkdir(dir, 0777)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{lru_8h_a815d447609d51d68f14256fdd021ba8c}{File\+Exists}} (const char \texorpdfstring{$\ast$}{*}path)
+\begin{DoxyCompactList}\small\item\em Chequea si un archivo existe en la ruta especificada. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{lru_8h_a02e7e06312c448da96018b3586836518}{Create\+File}} (const char \texorpdfstring{$\ast$}{*}path)
+\begin{DoxyCompactList}\small\item\em Crea un archivo vacio. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{lru_8h_a7aee7d40bed51f03a5cfa089fd469cb9}{Create\+Dir}} (char \texorpdfstring{$\ast$}{*}folder\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Crea un directorio (carpeta). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lru_8h_a706937e9c2f8d1fae0c5891af5ef9702}{init\+\_\+cache}} (\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}cache)
+\begin{DoxyCompactList}\small\item\em Inicializa la estructura \doxylink{structLRUcache}{LRUcache}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{lru_8h_a99984784224b821995b9b129d758cce6}{Create\+\_\+cache}} (char \texorpdfstring{$\ast$}{*}capacity, \mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}cache)
+\begin{DoxyCompactList}\small\item\em Crea la estructura de directorios y archivos de metadatos para la cache. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lru_8h_aaedbf6617dd438c27f3cd28917e17b0d}{test}} (\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}cache)
+\begin{DoxyCompactList}\small\item\em Funcion de prueba simple (muestra la capacidad maxima). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lru_8h_abf97a6ec80afb89e64548541360ebb76}{insertar\+\_\+al\+\_\+final}} (\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}cache, char val)
+\begin{DoxyCompactList}\small\item\em Inserta un dato al final de la lista. Usado solo para cargar la cache desde disco y mantener el orden MRU-\/\texorpdfstring{$>$}{>}LRU. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{lru_8h_a6362a8a2e8718ad8c57140ab156853b5}{Load\+Cache}} (\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}cache)
+\begin{DoxyCompactList}\small\item\em Carga la cache desde los archivos de persistencia (metadata.\+txt y data.\+txt). \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{lru_8h_a2c03c5077fe55bf5ca18495b470dccc1}{Add\+\_\+data}} (char \texorpdfstring{$\ast$}{*}val, \mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}cache)
+\begin{DoxyCompactList}\small\item\em Agrega un dato a la cache, gestionando la carga y persistencia en disco. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lru_8h_ae0b475932ca6361681355887f8fe004b}{actualizar\+\_\+ultimo}} (\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}cache)
+\begin{DoxyCompactList}\small\item\em Funcion auxiliar obsoleta (eliminada en la correccion final). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ Declaraciones de Funciones LRU}\par
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{lru_8h_ac945a6ebea01636f3538738afdb2d0fe}{agregar\+\_\+dato}} (\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}cache, char val)
+\begin{DoxyCompactList}\small\item\em Agrega un dato a la cache. Si ya existe, lo marca como usado. Si la cache esta llena, elimina el LRU. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lru_8h_a5734162f6ad920dd8acac2ef8c6ac6c5}{usar\+\_\+dato}} (\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}cache, char val)
+\begin{DoxyCompactList}\small\item\em Marca un dato existente como usado, moviendolo al frente (MRU) de la lista. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lru_8h_af0b0420bfbf6e58b5550b3150c7fd487}{mostrar\+\_\+cache}} (\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}cache)
+\begin{DoxyCompactList}\small\item\em Muestra el contenido actual de la cache en orden MRU -\/\texorpdfstring{$>$}{>} LRU. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lru_8h_af46f41246e929c7f2f15fe759823520e}{eliminar\+\_\+menos\+\_\+usado}} (\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}cache)
+\begin{DoxyCompactList}\small\item\em Elimina el elemento Menos Usado Recientemente (LRU) de la cache. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Detailed Description}
+Definiciones de estructuras y funciones para la Cache LRU (Least Recently Used). 
+
+Contiene la logica para crear, cargar, manipular (agregar/usar), y gestionar la persistencia de la cache en disco. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{lru_8h_ae0b475932ca6361681355887f8fe004b}\label{lru_8h_ae0b475932ca6361681355887f8fe004b} 
+\index{lru.h@{lru.h}!actualizar\_ultimo@{actualizar\_ultimo}}
+\index{actualizar\_ultimo@{actualizar\_ultimo}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{actualizar\_ultimo()}{actualizar\_ultimo()}}
+{\footnotesize\ttfamily void actualizar\+\_\+ultimo (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}}]{cache }\end{DoxyParamCaption})}
+
+
+
+Funcion auxiliar obsoleta (eliminada en la correccion final). 
+
+\begin{DoxyRefDesc}{Deprecated}
+\item[\mbox{\hyperlink{deprecated__deprecated000001}{Deprecated}}]Esta funcion ya no se utiliza para mantener la eficiencia LRU. \end{DoxyRefDesc}
+\Hypertarget{lru_8h_a2c03c5077fe55bf5ca18495b470dccc1}\label{lru_8h_a2c03c5077fe55bf5ca18495b470dccc1} 
+\index{lru.h@{lru.h}!Add\_data@{Add\_data}}
+\index{Add\_data@{Add\_data}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{Add\_data()}{Add\_data()}}
+{\footnotesize\ttfamily int Add\+\_\+data (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{val,  }\item[{\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}}]{cache }\end{DoxyParamCaption})}
+
+
+
+Agrega un dato a la cache, gestionando la carga y persistencia en disco. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & Puntero a la cadena que contiene el dato a agregar (se usa solo el primer caracter). \\
+\hline
+{\em cache} & Puntero a la estructura \doxylink{structLRUcache}{LRUcache}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Retorna 0 si es exitoso, 1 en caso de error de carga/guardado. 
+\end{DoxyReturn}
+\Hypertarget{lru_8h_ac945a6ebea01636f3538738afdb2d0fe}\label{lru_8h_ac945a6ebea01636f3538738afdb2d0fe} 
+\index{lru.h@{lru.h}!agregar\_dato@{agregar\_dato}}
+\index{agregar\_dato@{agregar\_dato}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{agregar\_dato()}{agregar\_dato()}}
+{\footnotesize\ttfamily void agregar\+\_\+dato (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}}]{cache,  }\item[{char}]{val }\end{DoxyParamCaption})}
+
+
+
+Agrega un dato a la cache. Si ya existe, lo marca como usado. Si la cache esta llena, elimina el LRU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cache} & Puntero a la estructura \doxylink{structLRUcache}{LRUcache}. \\
+\hline
+{\em val} & El dato de tipo char a agregar. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lru_8h_a99984784224b821995b9b129d758cce6}\label{lru_8h_a99984784224b821995b9b129d758cce6} 
+\index{lru.h@{lru.h}!Create\_cache@{Create\_cache}}
+\index{Create\_cache@{Create\_cache}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{Create\_cache()}{Create\_cache()}}
+{\footnotesize\ttfamily int Create\+\_\+cache (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{capacity,  }\item[{\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}}]{cache }\end{DoxyParamCaption})}
+
+
+
+Crea la estructura de directorios y archivos de metadatos para la cache. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em capacity} & Capacidad maxima de la cache como cadena de texto. \\
+\hline
+{\em cache} & Puntero a la estructura \doxylink{structLRUcache}{LRUcache}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Retorna 0 si es exitoso, 1 en caso de error. 
+\end{DoxyReturn}
+\Hypertarget{lru_8h_a7aee7d40bed51f03a5cfa089fd469cb9}\label{lru_8h_a7aee7d40bed51f03a5cfa089fd469cb9} 
+\index{lru.h@{lru.h}!CreateDir@{CreateDir}}
+\index{CreateDir@{CreateDir}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{CreateDir()}{CreateDir()}}
+{\footnotesize\ttfamily int Create\+Dir (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{folder\+\_\+name }\end{DoxyParamCaption})}
+
+
+
+Crea un directorio (carpeta). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em folder\+\_\+name} & El nombre o ruta de la carpeta a crear. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Retorna 0 si es exitoso, 1 en caso de error. 
+\end{DoxyReturn}
+\Hypertarget{lru_8h_a02e7e06312c448da96018b3586836518}\label{lru_8h_a02e7e06312c448da96018b3586836518} 
+\index{lru.h@{lru.h}!CreateFile@{CreateFile}}
+\index{CreateFile@{CreateFile}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{CreateFile()}{CreateFile()}}
+{\footnotesize\ttfamily int Create\+File (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{path }\end{DoxyParamCaption})}
+
+
+
+Crea un archivo vacio. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & La ruta del archivo a crear. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Retorna 0 si es exitoso, 1 en caso de error. 
+\end{DoxyReturn}
+\Hypertarget{lru_8h_af46f41246e929c7f2f15fe759823520e}\label{lru_8h_af46f41246e929c7f2f15fe759823520e} 
+\index{lru.h@{lru.h}!eliminar\_menos\_usado@{eliminar\_menos\_usado}}
+\index{eliminar\_menos\_usado@{eliminar\_menos\_usado}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{eliminar\_menos\_usado()}{eliminar\_menos\_usado()}}
+{\footnotesize\ttfamily void eliminar\+\_\+menos\+\_\+usado (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}}]{cache }\end{DoxyParamCaption})}
+
+
+
+Elimina el elemento Menos Usado Recientemente (LRU) de la cache. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cache} & Puntero a la estructura \doxylink{structLRUcache}{LRUcache}. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lru_8h_a815d447609d51d68f14256fdd021ba8c}\label{lru_8h_a815d447609d51d68f14256fdd021ba8c} 
+\index{lru.h@{lru.h}!FileExists@{FileExists}}
+\index{FileExists@{FileExists}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{FileExists()}{FileExists()}}
+{\footnotesize\ttfamily int File\+Exists (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{path }\end{DoxyParamCaption})}
+
+
+
+Chequea si un archivo existe en la ruta especificada. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & La ruta del archivo. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Retorna 1 si existe, 0 en caso contrario. 
+\end{DoxyReturn}
+\Hypertarget{lru_8h_a706937e9c2f8d1fae0c5891af5ef9702}\label{lru_8h_a706937e9c2f8d1fae0c5891af5ef9702} 
+\index{lru.h@{lru.h}!init\_cache@{init\_cache}}
+\index{init\_cache@{init\_cache}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{init\_cache()}{init\_cache()}}
+{\footnotesize\ttfamily void init\+\_\+cache (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}}]{cache }\end{DoxyParamCaption})}
+
+
+
+Inicializa la estructura \doxylink{structLRUcache}{LRUcache}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cache} & Puntero a la estructura \doxylink{structLRUcache}{LRUcache} a inicializar. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lru_8h_abf97a6ec80afb89e64548541360ebb76}\label{lru_8h_abf97a6ec80afb89e64548541360ebb76} 
+\index{lru.h@{lru.h}!insertar\_al\_final@{insertar\_al\_final}}
+\index{insertar\_al\_final@{insertar\_al\_final}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{insertar\_al\_final()}{insertar\_al\_final()}}
+{\footnotesize\ttfamily void insertar\+\_\+al\+\_\+final (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}}]{cache,  }\item[{char}]{val }\end{DoxyParamCaption})}
+
+
+
+Inserta un dato al final de la lista. Usado solo para cargar la cache desde disco y mantener el orden MRU-\/\texorpdfstring{$>$}{>}LRU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cache} & Puntero a la estructura \doxylink{structLRUcache}{LRUcache}. \\
+\hline
+{\em val} & El dato de tipo char a insertar. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lru_8h_a6362a8a2e8718ad8c57140ab156853b5}\label{lru_8h_a6362a8a2e8718ad8c57140ab156853b5} 
+\index{lru.h@{lru.h}!LoadCache@{LoadCache}}
+\index{LoadCache@{LoadCache}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{LoadCache()}{LoadCache()}}
+{\footnotesize\ttfamily int Load\+Cache (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}}]{cache }\end{DoxyParamCaption})}
+
+
+
+Carga la cache desde los archivos de persistencia (metadata.\+txt y data.\+txt). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cache} & Puntero a la estructura \doxylink{structLRUcache}{LRUcache} donde se cargaran los datos. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Retorna 0 si es exitoso, 1 si la cache no existe o hay error de I/O. 
+\end{DoxyReturn}
+\Hypertarget{lru_8h_af0b0420bfbf6e58b5550b3150c7fd487}\label{lru_8h_af0b0420bfbf6e58b5550b3150c7fd487} 
+\index{lru.h@{lru.h}!mostrar\_cache@{mostrar\_cache}}
+\index{mostrar\_cache@{mostrar\_cache}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{mostrar\_cache()}{mostrar\_cache()}}
+{\footnotesize\ttfamily void mostrar\+\_\+cache (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}}]{cache }\end{DoxyParamCaption})}
+
+
+
+Muestra el contenido actual de la cache en orden MRU -\/\texorpdfstring{$>$}{>} LRU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cache} & Puntero a la estructura \doxylink{structLRUcache}{LRUcache}. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lru_8h_aaedbf6617dd438c27f3cd28917e17b0d}\label{lru_8h_aaedbf6617dd438c27f3cd28917e17b0d} 
+\index{lru.h@{lru.h}!test@{test}}
+\index{test@{test}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{test()}{test()}}
+{\footnotesize\ttfamily void test (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}}]{cache }\end{DoxyParamCaption})}
+
+
+
+Funcion de prueba simple (muestra la capacidad maxima). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cache} & Puntero a la estructura \doxylink{structLRUcache}{LRUcache}. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lru_8h_a5734162f6ad920dd8acac2ef8c6ac6c5}\label{lru_8h_a5734162f6ad920dd8acac2ef8c6ac6c5} 
+\index{lru.h@{lru.h}!usar\_dato@{usar\_dato}}
+\index{usar\_dato@{usar\_dato}!lru.h@{lru.h}}
+\doxysubsubsection{\texorpdfstring{usar\_dato()}{usar\_dato()}}
+{\footnotesize\ttfamily void usar\+\_\+dato (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structLRUcache}{LRUcache}} \texorpdfstring{$\ast$}{*}}]{cache,  }\item[{char}]{val }\end{DoxyParamCaption})}
+
+
+
+Marca un dato existente como usado, moviendolo al frente (MRU) de la lista. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cache} & Puntero a la estructura \doxylink{structLRUcache}{LRUcache}. \\
+\hline
+{\em val} & El dato de tipo char a usar. \\
+\hline
+\end{DoxyParams}

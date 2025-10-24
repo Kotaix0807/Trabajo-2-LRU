@@ -1,0 +1,301 @@
+\doxysection{lru.\+h}
+\hypertarget{lru_8h_source}{}\label{lru_8h_source}\index{src/lru.h@{src/lru.h}}
+\mbox{\hyperlink{lru_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\ \ \ \ \#include\ <direct.h>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\ \ \ \ \#define\ DIR\_SEPARATOR\ "{}\(\backslash\)\(\backslash\)"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\ \ \ \ \#define\ MKDIR(dir)\ \_mkdir(dir)}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\ \ \ \ \#else}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\ \ \ \ \#include\ <sys/stat.h>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\ \ \ \ \#define\ DIR\_SEPARATOR\ "{}/"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\ \ \ \ \#define\ MKDIR(dir)\ mkdir(dir,\ 0777)}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//\ Se\ asume\ que\ nodes.h\ declara\ List,\ Position\ y\ struct\ Node}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structLRUcache_a0d227ad15f7f91f2abacfe7442a50133}{max\_cache}};\ \ \ \ \ }
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{structNode}{List}}\ \mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ \mbox{\hyperlink{structLRUcache_a3932c021d0401ccffb2e6c1df215416e}{primero}};\ \ }
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ \mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}};\ \ \ }
+\DoxyCodeLine{00035\ \}\ \mbox{\hyperlink{structLRUcache}{LRUcache}};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{lru_8h_ac945a6ebea01636f3538738afdb2d0fe}{agregar\_dato}}(\mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache,\ \textcolor{keywordtype}{char}\ val);}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{lru_8h_a5734162f6ad920dd8acac2ef8c6ac6c5}{usar\_dato}}(\mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache,\ \textcolor{keywordtype}{char}\ val);}
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{lru_8h_af0b0420bfbf6e58b5550b3150c7fd487}{mostrar\_cache}}(\mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache);}
+\DoxyCodeLine{00042\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{lru_8h_af46f41246e929c7f2f15fe759823520e}{eliminar\_menos\_usado}}(\mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00050\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{lru_8h_a815d447609d51d68f14256fdd021ba8c}{FileExists}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *path)\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ FILE\ *file\ =\ fopen(path,\ \textcolor{stringliteral}{"{}r"{}});}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordflow}{if}\ (file)\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00057\ \}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00064\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{lru_8h_a02e7e06312c448da96018b3586836518}{CreateFile}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *path)\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ FILE\ *file\ =\ fopen(path,\ \textcolor{stringliteral}{"{}w"{}});}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordflow}{if}\ (file\ ==\ NULL)}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00068\ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00070\ \}}
+\DoxyCodeLine{00076\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{lru_8h_a7aee7d40bed51f03a5cfa089fd469cb9}{CreateDir}}(\textcolor{keywordtype}{char}\ *folder\_name)\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordflow}{if}(MKDIR(folder\_name)\ !=\ 0)}
+\DoxyCodeLine{00078\ \ \ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}No\ se\ pudo\ crear\ el\ directorio\ '\%s'\(\backslash\)n"{}},\ folder\_name);}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00081\ \ \ \ \ \}}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00083\ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00089\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{lru_8h_a706937e9c2f8d1fae0c5891af5ef9702}{init\_cache}}(\mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache)\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a0d227ad15f7f91f2abacfe7442a50133}{max\_cache}}\ =\ 0;}
+\DoxyCodeLine{00091\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}\ =\ \mbox{\hyperlink{nodes_8h_a913d1e38e41bc95bd4a26379ccb30503}{CreateList}}();}
+\DoxyCodeLine{00092\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a3932c021d0401ccffb2e6c1df215416e}{primero}}\ =\ NULL;}
+\DoxyCodeLine{00093\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}}\ =\ NULL;}
+\DoxyCodeLine{00094\ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00102\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{lru_8h_a99984784224b821995b9b129d758cce6}{Create\_cache}}(\textcolor{keywordtype}{char}\ *capacity,\ \mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache)\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordflow}{if}(capacity\ ==\ NULL\ ||\ atoi(capacity)\ <=\ 0)\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Capacidad\ no\ valida\(\backslash\)n"{}});}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00106\ \ \ \ \ \}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{int}\ max\ =\ atoi(capacity);}
+\DoxyCodeLine{00109\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a0d227ad15f7f91f2abacfe7442a50133}{max\_cache}}\ =\ max;}
+\DoxyCodeLine{00110\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}\ =\ \mbox{\hyperlink{nodes_8h_a913d1e38e41bc95bd4a26379ccb30503}{CreateList}}();}
+\DoxyCodeLine{00111\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a3932c021d0401ccffb2e6c1df215416e}{primero}}\ =\ NULL;}
+\DoxyCodeLine{00112\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}}\ =\ NULL;}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{char}\ path\_meta[256],\ path\_data[256];}
+\DoxyCodeLine{00115\ \ \ \ \ snprintf(path\_meta,\ \textcolor{keyword}{sizeof}(path\_meta),\ \textcolor{stringliteral}{"{}lru\_cache\%smetadata.txt"{}},\ DIR\_SEPARATOR);}
+\DoxyCodeLine{00116\ \ \ \ \ snprintf(path\_data,\ \textcolor{keyword}{sizeof}(path\_data),\ \textcolor{stringliteral}{"{}lru\_cache\%sdata.txt"{}},\ DIR\_SEPARATOR);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{lru_8h_a815d447609d51d68f14256fdd021ba8c}{FileExists}}(path\_meta)\ ||\ \mbox{\hyperlink{lru_8h_a815d447609d51d68f14256fdd021ba8c}{FileExists}}(path\_data))\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Ya\ existe\ una\ memoria\ cache\(\backslash\)n"{}});}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00121\ \ \ \ \ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{lru_8h_a7aee7d40bed51f03a5cfa089fd469cb9}{CreateDir}}(\textcolor{stringliteral}{"{}lru\_cache"{}}))\ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ FILE\ *meta\ =\ fopen(path\_meta,\ \textcolor{stringliteral}{"{}w"{}});}
+\DoxyCodeLine{00126\ \ \ \ \ FILE\ *data\ =\ fopen(path\_data,\ \textcolor{stringliteral}{"{}w"{}});}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordflow}{if}(meta\ ==\ NULL\ ||\ data\ ==\ NULL)\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Hubo\ un\ error\ creando\ archivos\(\backslash\)n"{}});}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00130\ \ \ \ \ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ fprintf(meta,\ \textcolor{stringliteral}{"{}max\_cache=\%d\(\backslash\)n"{}},\ max);}
+\DoxyCodeLine{00133\ \ \ \ \ fprintf(meta,\ \textcolor{stringliteral}{"{}head=\(\backslash\)n"{}});}
+\DoxyCodeLine{00134\ \ \ \ \ fprintf(meta,\ \textcolor{stringliteral}{"{}last=\(\backslash\)n"{}});}
+\DoxyCodeLine{00135\ \ \ \ \ fclose(meta);}
+\DoxyCodeLine{00136\ \ \ \ \ fclose(data);}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Cache\ creada\ con\ capacidad\ maxima\ de\ \%d\(\backslash\)n"{}},\ max);}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00140\ \}}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00146\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{lru_8h_aaedbf6617dd438c27f3cd28917e17b0d}{test}}(\mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache)\ \{}
+\DoxyCodeLine{00147\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Max\ cache:\ \%d\(\backslash\)n"{}},\ cache-\/>\mbox{\hyperlink{structLRUcache_a0d227ad15f7f91f2abacfe7442a50133}{max\_cache}});}
+\DoxyCodeLine{00148\ \}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00156\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{lru_8h_abf97a6ec80afb89e64548541360ebb76}{insertar\_al\_final}}(\mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache,\ \textcolor{keywordtype}{char}\ val)\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ nuevo\ =\ malloc(\textcolor{keyword}{sizeof}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structNode}{Node}}));}
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordflow}{if}\ (!nuevo)\ \{\ }
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ de\ asignacion\ de\ memoria"{}});}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00161\ \ \ \ \ \}}
+\DoxyCodeLine{00162\ \ \ \ \ nuevo-\/>\mbox{\hyperlink{structNode_a3527c64bfe482b609a871b2496a3f2e8}{Element}}\ =\ val;}
+\DoxyCodeLine{00163\ \ \ \ \ nuevo-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ =\ NULL;}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \ \ }
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keywordflow}{if}\ (!cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}})\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ =\ nuevo;}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a3932c021d0401ccffb2e6c1df215416e}{primero}}\ =\ nuevo;}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}}\ =\ nuevo;}
+\DoxyCodeLine{00170\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ =\ nuevo;}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}}\ =\ nuevo;}
+\DoxyCodeLine{00174\ \ \ \ \ \}}
+\DoxyCodeLine{00175\ \}}
+\DoxyCodeLine{00181\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{lru_8h_a6362a8a2e8718ad8c57140ab156853b5}{LoadCache}}(\mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache)\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordtype}{char}\ path\_meta[256],\ path\_data[256];}
+\DoxyCodeLine{00183\ \ \ \ \ snprintf(path\_meta,\ \textcolor{keyword}{sizeof}(path\_meta),\ \textcolor{stringliteral}{"{}lru\_cache\%smetadata.txt"{}},\ DIR\_SEPARATOR);}
+\DoxyCodeLine{00184\ \ \ \ \ snprintf(path\_data,\ \textcolor{keyword}{sizeof}(path\_data),\ \textcolor{stringliteral}{"{}lru\_cache\%sdata.txt"{}},\ DIR\_SEPARATOR);}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \ \ \ \ FILE\ *meta\ =\ fopen(path\_meta,\ \textcolor{stringliteral}{"{}r"{}});}
+\DoxyCodeLine{00187\ \ \ \ \ FILE\ *data\ =\ fopen(path\_data,\ \textcolor{stringliteral}{"{}r"{}});}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordflow}{if}(!meta\ ||\ !data)\ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(meta)\ fclose(meta);}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(data)\ fclose(data);}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;\ }
+\DoxyCodeLine{00193\ \ \ \ \ \}}
+\DoxyCodeLine{00194\ \ \ \ \ fscanf(meta,\ \textcolor{stringliteral}{"{}max\_cache=\%d\(\backslash\)n"{}},\ \&cache-\/>\mbox{\hyperlink{structLRUcache_a0d227ad15f7f91f2abacfe7442a50133}{max\_cache}});}
+\DoxyCodeLine{00195\ \ \ \ \ fclose(meta);}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \mbox{\hyperlink{nodes_8h_ab13417936adff54bd6d1647d9a92bb2d}{EmptyList}}(\&cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}});}
+\DoxyCodeLine{00198\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}\ =\ \mbox{\hyperlink{nodes_8h_a913d1e38e41bc95bd4a26379ccb30503}{CreateList}}();}
+\DoxyCodeLine{00199\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a3932c021d0401ccffb2e6c1df215416e}{primero}}\ =\ NULL;}
+\DoxyCodeLine{00200\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}}\ =\ NULL;}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordtype}{char}\ line[16];}
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordflow}{while}(fgets(line,\ \textcolor{keyword}{sizeof}(line),\ data))\ \{}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ c\ =\ line[0];}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(c\ ==\ \textcolor{charliteral}{'\(\backslash\)n'}\ ||\ c\ ==\ \textcolor{charliteral}{'\(\backslash\)0'})\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{lru_8h_abf97a6ec80afb89e64548541360ebb76}{insertar\_al\_final}}(cache,\ c);\ \textcolor{comment}{//\ Usa\ insercion\ al\ final\ para\ mantener\ el\ orden\ de\ carga}}
+\DoxyCodeLine{00207\ \ \ \ \ \}}
+\DoxyCodeLine{00208\ \ \ \ \ fclose(data);}
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00210\ \}}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00218\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{lru_8h_a2c03c5077fe55bf5ca18495b470dccc1}{Add\_data}}(\textcolor{keywordtype}{char}\ *val,\ \mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache)\ \{}
+\DoxyCodeLine{00219\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{lru_8h_a6362a8a2e8718ad8c57140ab156853b5}{LoadCache}}(cache))\ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \ \ \ \ \mbox{\hyperlink{lru_8h_ac945a6ebea01636f3538738afdb2d0fe}{agregar\_dato}}(cache,\ val[0]);}
+\DoxyCodeLine{00222\ \ \ \ \ \textcolor{keywordtype}{char}\ path[256];}
+\DoxyCodeLine{00223\ \ \ \ \ snprintf(path,\ \textcolor{keyword}{sizeof}(path),\ \textcolor{stringliteral}{"{}lru\_cache\%sdata.txt"{}},\ DIR\_SEPARATOR);}
+\DoxyCodeLine{00224\ \ \ \ \ FILE\ *data\ =\ fopen(path,\ \textcolor{stringliteral}{"{}w"{}});}
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keywordflow}{if}(!data)\ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \ \ \ \ \textcolor{comment}{//\ Persistir\ la\ cache\ en\ el\ orden\ MRU-\/>LRU}}
+\DoxyCodeLine{00228\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ p\ =\ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00229\ \ \ \ \ \textcolor{keywordflow}{while}(p)\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ fputc(p-\/>\mbox{\hyperlink{structNode_a3527c64bfe482b609a871b2496a3f2e8}{Element}},\ data);}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ fputc(\textcolor{charliteral}{'\(\backslash\)n'},\ data);}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ p\ =\ p-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00233\ \ \ \ \ \}}
+\DoxyCodeLine{00234\ \ \ \ \ fclose(data);}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Data\ \%c\ added\ to\ cache\(\backslash\)n"{}},\ val[0]);}
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00238\ \}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00244\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{lru_8h_ae0b475932ca6361681355887f8fe004b}{actualizar\_ultimo}}(\mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache)\ \{}
+\DoxyCodeLine{00245\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ p\ =\ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00246\ \ \ \ \ \textcolor{keywordflow}{if}(!p)\ \{\ cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}}\ =\ NULL;\ \textcolor{keywordflow}{return};\ \}}
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keywordflow}{while}(p-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}})\ p\ =\ p-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00248\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}}\ =\ p;}
+\DoxyCodeLine{00249\ \}}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00257\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{lru_8h_ac945a6ebea01636f3538738afdb2d0fe}{agregar\_dato}}(\mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache,\ \textcolor{keywordtype}{char}\ val)\ \{}
+\DoxyCodeLine{00258\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ encontrado\ =\ \mbox{\hyperlink{nodes_8h_a611a52d75c4849f1d86da34735dd65ec}{FindNode}}(cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}},\ val);}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \ \ \ \ \textcolor{keywordflow}{if}(encontrado)\ \{\ }
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{lru_8h_a5734162f6ad920dd8acac2ef8c6ac6c5}{usar\_dato}}(cache,\ val);\ }
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ }
+\DoxyCodeLine{00263\ \ \ \ \ \}}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{keywordtype}{int}\ count\ =\ 0;}
+\DoxyCodeLine{00266\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ tmp\ =\ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00267\ \ \ \ \ \textcolor{keywordflow}{while}(tmp)\ \{\ count++;\ tmp\ =\ tmp-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};\ \}}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \ \ \ \ \textcolor{keywordflow}{if}(count\ >=\ cache-\/>\mbox{\hyperlink{structLRUcache_a0d227ad15f7f91f2abacfe7442a50133}{max\_cache}})\ \mbox{\hyperlink{lru_8h_af46f41246e929c7f2f15fe759823520e}{eliminar\_menos\_usado}}(cache);}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ nuevo\ =\ malloc(\textcolor{keyword}{sizeof}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structNode}{Node}}));}
+\DoxyCodeLine{00272\ \ \ \ \ \textcolor{keywordflow}{if}\ (!nuevo)\ \{\ }
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ de\ asignacion\ de\ memoria"{}});}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00275\ \ \ \ \ \}}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \ \ \ \ nuevo-\/>\mbox{\hyperlink{structNode_a3527c64bfe482b609a871b2496a3f2e8}{Element}}\ =\ val;}
+\DoxyCodeLine{00278\ \ \ \ \ \textcolor{comment}{//\ Insercion\ al\ inicio\ (nuevo\ MRU)}}
+\DoxyCodeLine{00279\ \ \ \ \ nuevo-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ =\ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00280\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ =\ nuevo;}
+\DoxyCodeLine{00281\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a3932c021d0401ccffb2e6c1df215416e}{primero}}\ =\ nuevo;\ }
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00283\ \ \ \ \ \textcolor{comment}{//\ Si\ la\ cache\ estaba\ vacia,\ este\ es\ el\ LRU\ tambien}}
+\DoxyCodeLine{00284\ \ \ \ \ \textcolor{keywordflow}{if}(!cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}})\ \{\ }
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}}\ =\ nuevo;\ }
+\DoxyCodeLine{00286\ \ \ \ \ \}}
+\DoxyCodeLine{00287\ \}}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00294\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{lru_8h_a5734162f6ad920dd8acac2ef8c6ac6c5}{usar\_dato}}(\mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache,\ \textcolor{keywordtype}{char}\ val)\ \{}
+\DoxyCodeLine{00295\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ prev\ =\ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}};}
+\DoxyCodeLine{00296\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ actual\ =\ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00297\ \ \ \ \ }
+\DoxyCodeLine{00298\ \ \ \ \ \textcolor{comment}{//\ Buscar\ el\ nodo\ y\ su\ predecesor}}
+\DoxyCodeLine{00299\ \ \ \ \ \textcolor{keywordflow}{while}(actual\ \&\&\ actual-\/>\mbox{\hyperlink{structNode_a3527c64bfe482b609a871b2496a3f2e8}{Element}}\ !=\ val)\ \{}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ prev\ =\ actual;}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ actual\ =\ actual-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00302\ \ \ \ \ \}}
+\DoxyCodeLine{00303\ \ \ \ \ }
+\DoxyCodeLine{00304\ \ \ \ \ \textcolor{keywordflow}{if}(!actual)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00305\ \ \ \ \ }
+\DoxyCodeLine{00306\ \ \ \ \ \textcolor{comment}{//\ Si\ ya\ es\ el\ primero\ (MRU)}}
+\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keywordflow}{if}(prev\ ==\ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}})\ \{}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Data\ element\ \%c\ used\ (already\ MRU)\(\backslash\)n"{}},\ val);}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ }
+\DoxyCodeLine{00310\ \ \ \ \ \}}
+\DoxyCodeLine{00311\ \ \ \ \ }
+\DoxyCodeLine{00312\ \ \ \ \ \textcolor{comment}{//\ Si\ el\ nodo\ actual\ era\ el\ LRU,\ el\ predecesor\ es\ el\ nuevo\ LRU}}
+\DoxyCodeLine{00313\ \ \ \ \ \textcolor{keywordflow}{if}\ (actual\ ==\ cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}})\ \{}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}}\ =\ prev;}
+\DoxyCodeLine{00315\ \ \ \ \ \}}
+\DoxyCodeLine{00316\ }
+\DoxyCodeLine{00317\ \ \ \ \ \textcolor{comment}{//\ Quitar\ de\ la\ posicion\ actual}}
+\DoxyCodeLine{00318\ \ \ \ \ prev-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ =\ actual-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00319\ \ \ \ \ }
+\DoxyCodeLine{00320\ \ \ \ \ \textcolor{comment}{//\ Mover\ al\ frente\ (MRU)}}
+\DoxyCodeLine{00321\ \ \ \ \ actual-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ =\ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00322\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ =\ actual;}
+\DoxyCodeLine{00323\ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a3932c021d0401ccffb2e6c1df215416e}{primero}}\ =\ actual;}
+\DoxyCodeLine{00324\ }
+\DoxyCodeLine{00325\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Data\ element\ \%c\ used\(\backslash\)n"{}},\ val);}
+\DoxyCodeLine{00326\ \}}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00332\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{lru_8h_af0b0420bfbf6e58b5550b3150c7fd487}{mostrar\_cache}}(\mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache)\ \{}
+\DoxyCodeLine{00333\ \ \ \ \ \textcolor{keywordflow}{if}(!cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}})\ \{}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Cache\ contents:\ (vacia)\(\backslash\)n"{}});}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00336\ \ \ \ \ \}}
+\DoxyCodeLine{00337\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Cache\ contents:\ "{}});}
+\DoxyCodeLine{00338\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ tmp\ =\ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00339\ \ \ \ \ \textcolor{keywordflow}{while}(tmp)\ \{}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\%c"{}},\ tmp-\/>\mbox{\hyperlink{structNode_a3527c64bfe482b609a871b2496a3f2e8}{Element}});}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(tmp-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}})\ printf(\textcolor{stringliteral}{"{}\ -\/\ "{}});}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ tmp\ =\ tmp-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00343\ \ \ \ \ \}}
+\DoxyCodeLine{00344\ \ \ \ \ printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{00345\ \}}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00347\ }
+\DoxyCodeLine{00352\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{lru_8h_af46f41246e929c7f2f15fe759823520e}{eliminar\_menos\_usado}}(\mbox{\hyperlink{structLRUcache}{LRUcache}}\ *cache)\ \{}
+\DoxyCodeLine{00353\ \ \ \ \ \textcolor{keywordflow}{if}(!cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00354\ \ \ \ \ }
+\DoxyCodeLine{00355\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ prev\ =\ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}};}
+\DoxyCodeLine{00356\ \ \ \ \ \mbox{\hyperlink{structNode}{Position}}\ actual\ =\ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}}-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00357\ \ \ \ \ }
+\DoxyCodeLine{00358\ \ \ \ \ \textcolor{comment}{//\ Encontrar\ el\ LRU\ (el\ ultimo)\ y\ su\ predecesor}}
+\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keywordflow}{while}(actual-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}})\ \{}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ prev\ =\ actual;}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ actual\ =\ actual-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}};}
+\DoxyCodeLine{00362\ \ \ \ \ \}}
+\DoxyCodeLine{00363\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Data\ element\ \%c\ deleted\(\backslash\)n"{}},\ actual-\/>\mbox{\hyperlink{structNode_a3527c64bfe482b609a871b2496a3f2e8}{Element}});}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00365\ \ \ \ \ \textcolor{comment}{//\ Desvincular}}
+\DoxyCodeLine{00366\ \ \ \ \ prev-\/>\mbox{\hyperlink{structNode_af5e23769298e243655d3a252dd18533c}{Next}}\ =\ NULL;}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00368\ \ \ \ \ \textcolor{comment}{//\ Actualizar\ punteros\ de\ la\ cache}}
+\DoxyCodeLine{00369\ \ \ \ \ \textcolor{keywordflow}{if}\ (prev\ ==\ cache-\/>\mbox{\hyperlink{structLRUcache_aac27106eb5cef5baaeadacb445f23067}{main}})\ \{}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ La\ lista\ queda\ vacia}}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}}\ =\ NULL;}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a3932c021d0401ccffb2e6c1df215416e}{primero}}\ =\ NULL;}
+\DoxyCodeLine{00373\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ El\ predecesor\ es\ el\ nuevo\ LRU}}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ cache-\/>\mbox{\hyperlink{structLRUcache_a30cd7f09f5aba86f16c8953db6d9adb4}{ultimo}}\ =\ prev;}
+\DoxyCodeLine{00376\ \ \ \ \ \}}
+\DoxyCodeLine{00377\ }
+\DoxyCodeLine{00378\ \ \ \ \ free(actual);}
+\DoxyCodeLine{00379\ \}}
+
+\end{DoxyCode}
