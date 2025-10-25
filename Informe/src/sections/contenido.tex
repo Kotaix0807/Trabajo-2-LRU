@@ -52,6 +52,13 @@ Para la implementación del sistema de caché LRU, se utilizaron las siguientes 
     Una \textbf{lista enlazada} es una estructura de datos dinámica que consiste en una serie de elementos llamados nodos, donde cada nodo contiene un dato y una referencia 
     al siguiente nodo en la secuencia. A diferencia de un array, las listas enlazadas permiten un crecimiento dinámico sin un tamaño fijo y facilitan la inserción 
     y eliminación de elementos, ya que solo requieren actualizar referencias.\\
+
+    Sin embargo, las listas enlazadas presentan tanto ventajas como desventajas frente a los arreglos:
+    \begin{itemize}
+        \item \textbf{Ventajas:} Inserciones y eliminaciones en cualquier posición sin necesidad de mover todos los elementos. Crecimiento dinámico sin tamaño predefinido.
+        \item \textbf{Desventajas:} La búsqueda de un dato específico requiere recorrer la lista nodo por nodo ($O(N)$), mientras que en un arreglo, si se conoce el índice, se puede acceder directamente en $O(1)$.
+    \end{itemize}
+    
     Para comprender mejor una lista enlazada es importante saber que es un nodo.
         \subsubsection{Nodo}
         En informática, un nodo es un elemento individual de una estructura de datos que almacena información y, en muchos casos, tiene referencias o enlaces a otros nodos. 
