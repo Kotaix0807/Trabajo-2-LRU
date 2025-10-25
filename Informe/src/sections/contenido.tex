@@ -177,22 +177,6 @@ Para la implementación del sistema de caché LRU, se utilizaron las siguientes 
         \item \textbf{Persistencia}: Finalmente, el nuevo orden de la lista enlazada es \textbf{guardado} en el archivo \texttt{data.txt}, garantizando que el estado de recencia actualizado se conserve en el disco.
     \end{enumerate}
     Este proceso es fundamental para la política LRU, ya que garantiza que los datos consultados mantengan su prioridad y no sean desalojados prematuramente.
-
-    \subsection{Lru add\_data \textless data\textgreater} 
-    Este comando añade elementos al cache actual (Se añaden elementos a la lista). En cada llamada de la funcion, primero se cargan los datos del cache. 
-    Luego, se asegura de que, si el dato que se quiere ingresar ya existe, entonces encuentra ese nodo, y lo marca como usado (\textbf{MRU: Most Recently Used}) a traves de \texttt{usar\_dato}. 
-    De no ser asi, contara la cantidad de datos actuales, la comparara con la cantidad maxima, y de ser excedida esa capacidad, entonces eliminara el dato menos usado 
-    con la funcion \texttt{eliminar\_menos\_usado}. Tras la operacion, el estado de la lista es persistido en \texttt{data.txt}.
-
-    \subsection{Lru get data \textless data\textgreater}
-    Esta funcion cumple el rol de 'Usar' un dato especificado, asi se cambiara su lugar en la lista enlazada, marcado como \textbf{MRU} (Most Recently Used) si es encontrado. 
-    \begin{itemize}
-        \item \textbf{Carga y Busqueda}: Primero se cargan los datos y luego se busca el valor.
-        \item \textbf{Reubicacion}: Si el dato existe y no es ya el MRU, se llama a la funcion \texttt{usar\_dato} para desvincular el nodo de su posicion y re-insertarlo al inicio.
-        \item \textbf{Persistencia}: Al igual que con \texttt{add\_data}, el nuevo orden de la cache es guardado en \texttt{data.txt} para reflejar la recencia actualizada.
-    \end{itemize}
-    Este comando garantiza que los datos consultados mantengan su prioridad en la cache.
-\newpage
 \section{Persistencia y Manejo de Archivos}
     La \textbf{persistencia} es la cualidad de los datos de \textbf{sobrevivir más allá del ciclo de vida del programa} que los creó o manipula. En este proyecto, 
     garantiza que el estado y el orden de recencia (\textbf{MRU $\rightarrow$ LRU}) de la caché se mantengan entre diferentes ejecuciones del programa.

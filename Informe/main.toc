@@ -8,16 +8,14 @@
 \contentsline {subsubsection}{\numberline {3.2.2}Implementacion mediante Lista Enlazada}{6}{subsubsection.3.2.2}%
 \contentsline {paragraph}{Mantenimiento del Orden de Recencia (MRU $\rightarrow $ LRU)}{6}{section*.4}%
 \contentsline {paragraph}{Uso en la Logica de la Cache}{6}{section*.5}%
-\contentsline {subsection}{\numberline {3.3}Manipulacion de Nodos}{6}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.3}Manipulacion de Nodos}{7}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}Estructura de la Cache LRU (\texttt {LRUcache})}{7}{subsection.3.4}%
 \contentsline {section}{\numberline {4}Implementacion de comandos}{9}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Lru create N}{9}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Lru add\_data}{9}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}Lru get data \textless data\textgreater }{9}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Lru add\_data \textless data\textgreater }{10}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Lru get data \textless data\textgreater }{10}{subsection.4.5}%
-\contentsline {section}{\numberline {5}Persistencia y Manejo de Archivos}{11}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Estructura de Persistencia}{11}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Mecanismos de Persistencia (Carga y Guardado)}{11}{subsection.5.2}%
-\contentsline {section}{\numberline {6}Conclusion}{12}{section.6}%
-\contentsline {section}{Referencias}{13}{section*.9}%
+\contentsline {section}{\numberline {5}Persistencia y Manejo de Archivos}{10}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Estructura de Persistencia}{10}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Mecanismos de Persistencia (Carga y Guardado)}{10}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Conclusion}{11}{section.6}%
+\contentsline {section}{Referencias}{12}{section*.9}%
