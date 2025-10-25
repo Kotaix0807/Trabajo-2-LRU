@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 {
     LRUcache main_cache;
     init_cache(&main_cache);
-
+    
     if(argc < 2)
     {
         printf("No arguments provided.\nTry: '[--help] [-h]'\n");
@@ -53,12 +53,17 @@ int main(int argc, char *argv[])
             printf("Debe indicar la capacidad maxima.\n");
             return 1;
         }
-        if(Create_cache(argv[2], &main_cache)) return 1;
+        if(Create_cache(argv[2], &main_cache))
+            return 1;
         return 0;
     }
 
     /// Para cualquier otro comando, intenta cargar la cache existente desde disco
-    if(LoadCache(&main_cache)) return 1;
+    if(LoadCache(&main_cache))
+    {
+        printf("No se pudo cargar la memoria cache. Asegurese de crearla primero.\n");
+        return 1;
+    }
 
     /// Comando add: Agrega un nuevo dato a la cache (o lo usa si ya existe).
     if(strcmp(argv[1], "add") == 0)
@@ -68,8 +73,10 @@ int main(int argc, char *argv[])
             printf("Debe indicar el dato a agregar.\n");
             return 1;
         }
-        Add_data(argv[2], &main_cache);
+        if(agregar_dato(&main_cache, argv[2][0]))
+            return 1;
         mostrar_cache(&main_cache);
+        return 0;
     }
     /// Comando get: Marca un dato existente como usado (lo mueve a la posicion MRU).
     else if(strcmp(argv[1], "get") == 0)
@@ -79,36 +86,32 @@ int main(int argc, char *argv[])
             printf("Debe indicar el dato a usar.\n");
             return 1;
         }
-        usar_dato(&main_cache, argv[2][0]);
-
-        /// Guardar cambios en disco (persistencia)
-        char path[256];
-        snprintf(path, sizeof(path), "lru_cache%sdata.txt", DIR_SEPARATOR);
-        FILE *data = fopen(path, "w");
-        if(data)
-        {
-            Position p = main_cache.main->Next;
-            while(p) { fputc(p->Element, data); fputc('\n', data); p = p->Next; }
-            fclose(data);
-        }
-
+        if(usar_dato(&main_cache, argv[2][0]))
+            return 1;
+        if(guardar_cache(&main_cache))
+            return 1;
         mostrar_cache(&main_cache);
+        return 0;
     }
     /// Comando all: Muestra el contenido actual de la cache.
     else if(strcmp(argv[1], "all") == 0)
     {
         mostrar_cache(&main_cache);
+        return 0;
     }
     /// Comando exit: Termina la ejecucion del programa.
     else if(strcmp(argv[1], "exit") == 0)
     {
-        printf("Saliendo...\n");
+        printf("Borrando cache y saliendo...\n");
+        if(Exit(&main_cache))
+            return 1;
         return 0;
     }
     /// Comando desconocido.
     else
     {
         printf("Comando desconocido. Use --help para ver los comandos disponibles.\n");
+        return 0;
     }
 
     return 0;

@@ -36,25 +36,13 @@ typedef struct {
 
 /** @name Declaraciones de Funciones LRU */
 ///@{
-void agregar_dato(LRUcache *cache, char val);
-void usar_dato(LRUcache *cache, char val);
+int agregar_dato(LRUcache *cache, char val);
+int usar_dato(LRUcache *cache, char val);
 void mostrar_cache(LRUcache *cache);
 void eliminar_menos_usado(LRUcache *cache);
+int guardar_cache(LRUcache *cache);
+int Exit(LRUcache *cache);
 ///@}
-
-/**
- * @brief Chequea si un archivo existe en la ruta especificada.
- * @param path La ruta del archivo.
- * @return int Retorna 1 si existe, 0 en caso contrario.
- */
-int FileExists(const char *path) {
-    FILE *file = fopen(path, "r");
-    if (file) {
-        fclose(file);
-        return 1;
-    }
-    return 0;
-}
 
 /**
  * @brief Crea un archivo vacio.
@@ -68,6 +56,21 @@ int CreateFile(const char *path) {
     fclose(file);
     return 0;
 }
+/**
+ * @brief Verifica si un archivo existe.
+ * @param path La ruta del archivo
+ * @return int Retorna 0 no existe, 1 en caso de que si.
+ */
+int FileExists(const char *path)
+{
+    FILE *file = fopen(path, "r");
+    if (file) {
+        fclose(file);
+        return 1;
+    }
+    return 0;
+}
+
 /**
  * @brief Crea un directorio (carpeta).
  * @param folder_name El nombre o ruta de la carpeta a crear.
@@ -92,7 +95,6 @@ void init_cache(LRUcache *cache) {
     cache->primero = NULL;
     cache->ultimo = NULL;
 }
-
 /**
  * @brief Crea la estructura de directorios y archivos de metadatos para la cache.
  * @param capacity Capacidad maxima de la cache como cadena de texto.
@@ -107,20 +109,17 @@ int Create_cache(char *capacity, LRUcache *cache) {
 
     int max = atoi(capacity);
     cache->max_cache = max;
-    cache->main = CreateList();
-    cache->primero = NULL;
-    cache->ultimo = NULL;
 
     char path_meta[256], path_data[256];
     snprintf(path_meta, sizeof(path_meta), "lru_cache%smetadata.txt", DIR_SEPARATOR);
     snprintf(path_data, sizeof(path_data), "lru_cache%sdata.txt", DIR_SEPARATOR);
 
     if(FileExists(path_meta) || FileExists(path_data)) {
-        printf("Ya existe una memoria cache\n");
+        printf("La cache ya existe. Si desea crear una nueva, elimine la carpeta 'lru_cache' primero.\n");
         return 1;
     }
-
-    if(CreateDir("lru_cache")) return 1;
+    if(CreateDir("lru_cache"))
+        printf("El directorio ya existe, continuando...\n");
 
     FILE *meta = fopen(path_meta, "w");
     FILE *data = fopen(path_data, "w");
@@ -130,8 +129,6 @@ int Create_cache(char *capacity, LRUcache *cache) {
     }
 
     fprintf(meta, "max_cache=%d\n", max);
-    fprintf(meta, "head=\n");
-    fprintf(meta, "last=\n");
     fclose(meta);
     fclose(data);
 
@@ -139,13 +136,6 @@ int Create_cache(char *capacity, LRUcache *cache) {
     return 0;
 }
 
-/**
- * @brief Funcion de prueba simple (muestra la capacidad maxima).
- * @param cache Puntero a la estructura LRUcache.
- */
-void test(LRUcache *cache) {
-    printf("Max cache: %d\n", cache->max_cache);
-}
 
 /**
  * @brief Inserta un dato al final de la lista. Usado solo para cargar la cache
@@ -168,7 +158,6 @@ void insertar_al_final(LRUcache *cache, char val) {
         cache->primero = nuevo;
         cache->ultimo = nuevo;
     } else {
-        
         cache->ultimo->Next = nuevo;
         cache->ultimo = nuevo;
     }
@@ -184,14 +173,22 @@ int LoadCache(LRUcache *cache) {
     snprintf(path_data, sizeof(path_data), "lru_cache%sdata.txt", DIR_SEPARATOR);
 
     FILE *meta = fopen(path_meta, "r");
-    FILE *data = fopen(path_data, "r");
-
-    if(!meta || !data) {
-        if(meta) fclose(meta);
-        if(data) fclose(data);
-        return 1; 
+    if(!meta) {
+        printf("Error al abrir '%s'\n", path_meta);
+        return 1;
     }
-    fscanf(meta, "max_cache=%d\n", &cache->max_cache);
+    FILE *data = fopen(path_data, "r");
+    if(!data) {
+        printf("Error al abrir '%s'\n", path_data);
+        fclose(meta);
+        return 1;
+    }
+    if(fscanf(meta, "max_cache=%d\n", &cache->max_cache) != 1 || cache->max_cache <= 0) {
+        printf("La memoria cache no ha sido inicializada.\n");
+        fclose(meta);
+        fclose(data);
+        return 1;
+    }
     fclose(meta);
 
     EmptyList(&cache->main);
@@ -202,7 +199,8 @@ int LoadCache(LRUcache *cache) {
     char line[16];
     while(fgets(line, sizeof(line), data)) {
         char c = line[0];
-        if(c == '\n' || c == '\0') continue;
+        if(c == '\n' || c == '\0')
+            continue;
         insertar_al_final(cache, c); // Usa insercion al final para mantener el orden de carga
     }
     fclose(data);
@@ -210,21 +208,19 @@ int LoadCache(LRUcache *cache) {
 }
 
 /**
- * @brief Agrega un dato a la cache, gestionando la carga y persistencia en disco.
- * @param val Puntero a la cadena que contiene el dato a agregar (se usa solo el primer caracter).
- * @param cache Puntero a la estructura LRUcache.
- * @return int Retorna 0 si es exitoso, 1 en caso de error de carga/guardado.
+ * @brief Persiste la cache actual en disco, manteniendo el orden MRU -> LRU.
+ * @param cache Puntero a la estructura LRUcache a guardar.
+ * @return int Retorna 0 si es exitoso, 1 en caso de error de escritura.
  */
-int Add_data(char *val, LRUcache *cache) {
-    if(LoadCache(cache)) return 1;
-
-    agregar_dato(cache, val[0]);
+int guardar_cache(LRUcache *cache) {
     char path[256];
     snprintf(path, sizeof(path), "lru_cache%sdata.txt", DIR_SEPARATOR);
     FILE *data = fopen(path, "w");
-    if(!data) return 1;
+    if(!data) {
+        printf("Error al abrir '%s' para escritura\n", path);
+        return 1;
+    }
 
-    // Persistir la cache en el orden MRU->LRU
     Position p = cache->main->Next;
     while(p) {
         fputc(p->Element, data);
@@ -232,58 +228,63 @@ int Add_data(char *val, LRUcache *cache) {
         p = p->Next;
     }
     fclose(data);
-
-    printf("Data %c added to cache\n", val[0]);
     return 0;
 }
 
-/**
- * @brief Funcion auxiliar obsoleta (eliminada en la correccion final).
- * @deprecated Esta funcion ya no se utiliza para mantener la eficiencia LRU.
- */
-void actualizar_ultimo(LRUcache *cache) {
-    Position p = cache->main->Next;
-    if(!p) { cache->ultimo = NULL; return; }
-    while(p->Next) p = p->Next;
-    cache->ultimo = p;
-}
 
 /**
- * @brief Agrega un dato a la cache. Si ya existe, lo marca como usado.
- * Si la cache esta llena, elimina el LRU.
+ * @brief Agrega un dato a la cache persistiendo los cambios.
+ * Si el dato ya existe se marca como usado y se actualiza el archivo.
+ * Si la cache esta llena, elimina el LRU antes de insertar.
  * @param cache Puntero a la estructura LRUcache.
  * @param val El dato de tipo char a agregar.
+ * @return int Retorna 0 si es exitoso, 1 en caso de error.
  */
-void agregar_dato(LRUcache *cache, char val) {
+int agregar_dato(LRUcache *cache, char val) {
+    if(!cache || !cache->main)
+    return 1;
+    
     Position encontrado = FindNode(cache->main, val);
-
-    if(encontrado) { 
-        usar_dato(cache, val); 
-        return; 
+    
+    if(encontrado) {
+        if(usar_dato(cache, val))
+        return 1;
+        if(guardar_cache(cache))
+        return 1;
+        return 0;
     }
-
+    
     int count = 0;
     Position tmp = cache->main->Next;
-    while(tmp) { count++; tmp = tmp->Next; }
-
-    if(count >= cache->max_cache) eliminar_menos_usado(cache);
-
-    Position nuevo = malloc(sizeof(struct Node));
-    if (!nuevo) { 
-        perror("Error de asignacion de memoria");
-        exit(EXIT_FAILURE);
+    while(tmp) {
+        count++;
+        tmp = tmp->Next;
     }
-
+    
+    if(count >= cache->max_cache)
+    eliminar_menos_usado(cache);
+    
+    Position nuevo = malloc(sizeof(struct Node));
+    if (!nuevo) {
+        perror("Error de asignacion de memoria");
+        return 1;
+    }
+    
     nuevo->Element = val;
     // Insercion al inicio (nuevo MRU)
     nuevo->Next = cache->main->Next;
     cache->main->Next = nuevo;
-    cache->primero = nuevo; 
-
+    cache->primero = nuevo;
+    
     // Si la cache estaba vacia, este es el LRU tambien
-    if(!cache->ultimo) { 
-        cache->ultimo = nuevo; 
-    }
+    if(!cache->ultimo)
+    cache->ultimo = nuevo;
+    
+    if(guardar_cache(cache))
+    return 1;
+    
+    printf("Dato %c agregado al cache\n", val);
+    return 0;
 }
 
 /**
@@ -291,7 +292,7 @@ void agregar_dato(LRUcache *cache, char val) {
  * @param cache Puntero a la estructura LRUcache.
  * @param val El dato de tipo char a usar.
  */
-void usar_dato(LRUcache *cache, char val) {
+int usar_dato(LRUcache *cache, char val) {
     Position prev = cache->main;
     Position actual = cache->main->Next;
     
@@ -301,19 +302,22 @@ void usar_dato(LRUcache *cache, char val) {
         actual = actual->Next;
     }
     
-    if(!actual) return;
+    if(!actual)
+    {
+        printf("Dato %c no encontrado en el cache\n", val);
+        return 1;
+    }
     
     // Si ya es el primero (MRU)
     if(prev == cache->main) {
-        printf("Data element %c used (already MRU)\n", val);
-        return; 
+        printf("Dato %c usado (ya es MRU)\n", val);
+        return 0; 
     }
     
     // Si el nodo actual era el LRU, el predecesor es el nuevo LRU
-    if (actual == cache->ultimo) {
-        cache->ultimo = prev;
-    }
-
+    if (actual == cache->ultimo)
+    cache->ultimo = prev;
+    
     // Quitar de la posicion actual
     prev->Next = actual->Next;
     
@@ -321,8 +325,9 @@ void usar_dato(LRUcache *cache, char val) {
     actual->Next = cache->main->Next;
     cache->main->Next = actual;
     cache->primero = actual;
-
-    printf("Data element %c used\n", val);
+    
+    printf("Dato %c used\n", val);
+    return 0;
 }
 
 /**
@@ -331,10 +336,10 @@ void usar_dato(LRUcache *cache, char val) {
  */
 void mostrar_cache(LRUcache *cache) {
     if(!cache->main->Next) {
-        printf("Cache contents: (vacia)\n");
+        printf("Contenido del cache: (vacio)\n");
         return;
     }
-    printf("Cache contents: ");
+    printf("Contenido del cache: ");
     Position tmp = cache->main->Next;
     while(tmp) {
         printf("%c", tmp->Element);
@@ -350,7 +355,8 @@ void mostrar_cache(LRUcache *cache) {
  * @param cache Puntero a la estructura LRUcache.
  */
 void eliminar_menos_usado(LRUcache *cache) {
-    if(!cache->main->Next) return;
+    if(!cache->main->Next)
+    return;
     
     Position prev = cache->main;
     Position actual = cache->main->Next;
@@ -360,11 +366,11 @@ void eliminar_menos_usado(LRUcache *cache) {
         prev = actual;
         actual = actual->Next;
     }
-    printf("Data element %c deleted\n", actual->Element);
-
+    printf("Dato %c eliminado\n", actual->Element);
+    
     // Desvincular
     prev->Next = NULL;
-
+    
     // Actualizar punteros de la cache
     if (prev == cache->main) {
         // La lista queda vacia
@@ -374,6 +380,41 @@ void eliminar_menos_usado(LRUcache *cache) {
         // El predecesor es el nuevo LRU
         cache->ultimo = prev;
     }
-
+    
     free(actual);
+}
+/**
+ * @brief Libera los recursos asociados a la cache y limpia los archivos persistidos.
+ * @param cache Puntero a la estructura LRUcache que se desea limpiar.
+ * @return int Retorna 0 si es exitoso, 1 si ocurre algun error.
+ */
+int Exit(LRUcache *cache) {
+    if(!cache)
+        return 1;
+
+    char path_meta[256], path_data[256];
+    snprintf(path_meta, sizeof(path_meta), "lru_cache%smetadata.txt", DIR_SEPARATOR);
+    snprintf(path_data, sizeof(path_data), "lru_cache%sdata.txt", DIR_SEPARATOR);
+
+    FILE *data = fopen(path_data, "w");
+    if(!data) {
+        printf("Error al limpiar '%s'\n", path_data);
+        return 1;
+    }
+    fclose(data);
+
+    FILE *meta = fopen(path_meta, "w");
+    if(!meta) {
+        printf("Error al limpiar '%s'\n", path_meta);
+        return 1;
+    }
+    fprintf(meta, "max_cache=0\n");
+    fclose(meta);
+
+    cache->max_cache = 0;
+    if(cache->main)
+        EmptyList(&cache->main);
+    cache->primero = NULL;
+    cache->ultimo = NULL;
+    return 0;
 }
